@@ -25,6 +25,7 @@ class LibraryEventsControllerIntegrationTest {
 
     /**
      * POST at /api/v1/library-event
+     * TODO: So far we are testing only the Integration of POST, we need to test KAFKA on it's own.
      * */
     @Test
     void postLibraryEvent() throws URISyntaxException {

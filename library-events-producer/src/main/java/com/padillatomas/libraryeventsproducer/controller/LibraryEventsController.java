@@ -2,6 +2,7 @@ package com.padillatomas.libraryeventsproducer.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.padillatomas.libraryeventsproducer.domain.LibraryEvent;
+import com.padillatomas.libraryeventsproducer.domain.LibraryEventType;
 import com.padillatomas.libraryeventsproducer.producer.LibraryEventsProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ public class LibraryEventsController {
     public ResponseEntity<LibraryEvent> insertNewBook(@RequestBody LibraryEvent libraryEvent) throws JsonProcessingException {
 
         // Send Message:
+        libraryEvent.setLibraryEventType(LibraryEventType.NEW);
         libraryEventsProducer.sendLibraryEvents(libraryEvent);
         return ResponseEntity.status(HttpStatus.CREATED).body(libraryEvent);
 

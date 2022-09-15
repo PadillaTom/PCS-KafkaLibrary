@@ -31,6 +31,10 @@ class LibraryEventsControllerUnitTest {
     @MockBean
     LibraryEventsProducer libraryEventsProducer;
 
+    /**
+     *
+     * @throws Exception
+     */
     @Test
     void postLibraryEvent() throws Exception {
         // Given:
@@ -44,7 +48,6 @@ class LibraryEventsControllerUnitTest {
                 .withId(456)
                 .withBook(myBook)
                 .build();
-
 
         doNothing().when(libraryEventsProducer)
                         .sendLibraryEvents(
@@ -60,6 +63,35 @@ class LibraryEventsControllerUnitTest {
         )
                 .andExpect(
                         status().isCreated()
+                );
+    }
+
+    /**
+     *
+     * @throws Exception
+     */
+    @Test
+    void postLibraryEvent4xx() throws Exception {
+        // Given:
+        LibraryEvent myLibraryEvent = LibraryEvent.builder()
+                .withId(456)
+                .withBook(null)
+                .build();
+
+        doNothing().when(libraryEventsProducer)
+                .sendLibraryEvents(
+                        isA(LibraryEvent.class)
+                );
+
+        // When:
+        mockMvc.perform(
+                        post("/api/v1/library-event")
+                                .content(objectMapper.writeValueAsString(myLibraryEvent))
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(
+                        status().is4xxClientError()
                 );
     }
 

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api")
 public class LibraryEventsController {
@@ -17,7 +19,7 @@ public class LibraryEventsController {
     LibraryEventsProducer libraryEventsProducer;
 
     @PostMapping("/v1/library-event")
-    public ResponseEntity<LibraryEvent> insertNewBook(@RequestBody LibraryEvent libraryEvent) throws JsonProcessingException {
+    public ResponseEntity<LibraryEvent> insertNewBook(@RequestBody @Valid LibraryEvent libraryEvent) throws JsonProcessingException {
 
         // Send Message:
         libraryEvent.setLibraryEventType(LibraryEventType.NEW);
